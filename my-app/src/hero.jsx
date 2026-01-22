@@ -2,7 +2,7 @@ import React from "react";
 
 export default function () {
   return (
-    <div>
+    <div className="mx-40 my-20">
       <h1 className="font-serif text-5xl tracking-wide text-[#4a6378]">
         Dear Today
       </h1>
