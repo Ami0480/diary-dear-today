@@ -6,3 +6,15 @@
   --font-serif: "Libre Baskerville", serif;
   --font-sans: "Open Sans", sans-serif;
 }
+
+input {
+  @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
+}
+
+button {
+  @apply text-2xl;
+}
+
+.display-diaries {
+  @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
+}
