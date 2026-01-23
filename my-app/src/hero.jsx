@@ -1,17 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "./supabase-client";
 
 export default function () {
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [diaries, setDiaries] = useState([]);
 
+  useEffect(() => {
+    fetchDiaries();
+  }, []);
+
+  const fetchDiaries = async () => {
+    const { data, error } = await supabase
+      .from("diaries")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching", error);
+    } else {
+      setDiaries(data);
+    }
+  };
+
   const addDiary = async () => {
     if (!title || !diary) return;
 
-    setDiaries([...diaries, { title, diary }]);
+    const { data, error } = await supabase
+      .from("diaries")
+      .insert([{ title, diary }])
+      .select();
 
-    setTitle("");
-    setDiary("");
+    if (error) {
+      console.error("Error saving", error);
+    } else {
+      setDiaries([...diaries, { title, diary }]);
+      setTitle("");
+      setDiary("");
+    }
   };
 
   return (
