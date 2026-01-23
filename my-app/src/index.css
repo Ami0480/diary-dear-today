@@ -7,7 +7,8 @@
   --font-sans: "Open Sans", sans-serif;
 }
 
-input {
+input,
+textarea {
   @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
 }
 

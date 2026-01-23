@@ -29,7 +29,7 @@ export default function () {
               className="font-sans"
               onChange={(e) => setTitle(e.target.value)}
             />
-            <input
+            <textarea
               type="text"
               placeholder="Write your diary"
               value={diary}
@@ -48,6 +48,10 @@ export default function () {
             <button
               type="button"
               className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white"
+              onClick={() => {
+                setTitle("");
+                setDiary("");
+              }}
             >
               Cancel
             </button>
@@ -61,7 +65,7 @@ export default function () {
               className="display-diaries border flex flex-col my-10 gap-3"
             >
               <h2 className="font-serif text-3xl">{d.title}</h2>
-              <p className="font-sans">{d.diary}</p>
+              <p className="font-sans whitespace-pre-wrap">{d.diary}</p>
             </div>
           ))}
         </div>
