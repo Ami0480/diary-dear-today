@@ -19,3 +19,6 @@ button {
 .display-diaries {
   @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
 }
+.edit-diaries {
+  @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
+}

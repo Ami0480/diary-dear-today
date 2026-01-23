@@ -6,6 +6,10 @@ export default function () {
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [diaries, setDiaries] = useState([]);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
   const [editDiary, setEditDiary] = useState("");
 
   useEffect(() => {
@@ -40,6 +44,13 @@ export default function () {
       setTitle("");
       setDiary("");
     }
+  };
+
+  const handleEdit = (d) => {
+    setEditId(d.id);
+    setEditTitle(d.title);
+    setEditDiary(d.diary);
+    setIsEditing(true);
   };
 
   return (
@@ -97,10 +108,11 @@ export default function () {
               <button
                 type="button"
                 className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
+                onClick={() => handleEdit(d)}
               >
                 Edit
               </button>
-              <EditCard />
+              {isEditing && <EditCard />}
             </div>
           ))}
         </div>
