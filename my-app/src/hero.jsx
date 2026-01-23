@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import EditCard from "./edit-card";
 import { supabase } from "./supabase-client";
 
 export default function () {
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
   const [diaries, setDiaries] = useState([]);
+  const [editDiary, setEditDiary] = useState("");
 
   useEffect(() => {
     fetchDiaries();
@@ -66,14 +68,14 @@ export default function () {
           <div className="flex gap-2">
             <button
               type="button"
-              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white"
+              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
               onClick={addDiary}
             >
               Save
             </button>
             <button
               type="button"
-              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white"
+              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
               onClick={() => {
                 setTitle("");
                 setDiary("");
@@ -92,6 +94,13 @@ export default function () {
             >
               <h2 className="font-serif text-3xl">{d.title}</h2>
               <p className="font-sans whitespace-pre-wrap">{d.diary}</p>
+              <button
+                type="button"
+                className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
+              >
+                Edit
+              </button>
+              <EditCard />
             </div>
           ))}
         </div>
