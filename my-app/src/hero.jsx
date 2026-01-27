@@ -84,28 +84,22 @@ export default function () {
               type="text"
               placeholder="Title"
               value={title}
-              className="font-sans"
               onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
               type="text"
               placeholder="Write your diary"
               value={diary}
-              className="font-sans h-96"
+              className="h-96"
               onChange={(e) => setDiary(e.target.value)}
             />
           </div>
           <div className="flex gap-2">
-            <button
-              type="button"
-              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
-              onClick={addDiary}
-            >
+            <button type="button" onClick={addDiary}>
               Save
             </button>
             <button
               type="button"
-              className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
               onClick={() => {
                 setTitle("");
                 setDiary("");
@@ -124,11 +118,7 @@ export default function () {
             >
               <h2 className="font-serif text-3xl">{d.title}</h2>
               <p className="font-sans whitespace-pre-wrap">{d.diary}</p>
-              <button
-                type="button"
-                className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
-                onClick={() => handleEdit(d)}
-              >
+              <button type="button" onClick={() => handleEdit(d)}>
                 Edit
               </button>
             </div>

@@ -9,11 +9,22 @@
 
 input,
 textarea {
-  @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
+  @apply font-sans text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
+}
+
+.auth {
+  @apply text-xl w-full;
+}
+
+h2 {
+  @apply font-serif text-3xl;
 }
 
 button {
-  @apply text-2xl;
+  @apply text-2xl font-sans w-32 bg-[#8dbbcc] text-white rounded;
+}
+.switch-button {
+  @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
 
 .display-diaries {
