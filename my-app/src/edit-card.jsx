@@ -5,9 +5,11 @@ export default function EditCard({
   setEditTitle,
   editDiary,
   setEditDiary,
+  updateEdit,
+  cancelEdit,
 }) {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
       <div className="edit-diaries border flex flex-col my-10 gap-3 bg-white">
         <input
           type="text"
@@ -26,12 +28,14 @@ export default function EditCard({
           <button
             type="button"
             className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
+            onClick={updateEdit}
           >
             Update
           </button>
           <button
             type="button"
             className="font-sans text-3xl w-32 bg-[#8dbbcc] text-white rounded"
+            onClick={cancelEdit}
           >
             Cancel
           </button>

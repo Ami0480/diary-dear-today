@@ -53,6 +53,25 @@ export default function () {
     setIsEditing(true);
   };
 
+  const updateEdit = async () => {
+    if (!editTitle || !editDiary) return;
+
+    const { error } = await supabase
+      .from("diaries")
+      .update({ title: editTitle, diary: editDiary })
+      .eq("id", editId);
+    if (error) {
+      console.error("Error updating", error);
+    } else {
+      fetchDiaries();
+      setIsEditing(false);
+    }
+  };
+
+  const cancelEdit = () => {
+    setIsEditing(false);
+  };
+
   return (
     <div className="mx-40">
       <h1 className="font-serif text-5xl tracking-wide my-10 text-[#4a6378] flex justify-center">
@@ -112,9 +131,19 @@ export default function () {
               >
                 Edit
               </button>
-              {isEditing && <EditCard />}
             </div>
           ))}
+
+          {isEditing && (
+            <EditCard
+              editTitle={editTitle}
+              setEditTitle={setEditTitle}
+              editDiary={editDiary}
+              setEditDiary={setEditDiary}
+              updateEdit={updateEdit}
+              cancelEdit={cancelEdit}
+            />
+          )}
         </div>
       </div>
     </div>
