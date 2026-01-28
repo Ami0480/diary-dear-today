@@ -27,6 +27,10 @@ button {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
 
+.delete-button {
+  @apply bg-red-300;
+}
+
 .display-diaries {
   @apply text-gray-500 text-2xl border border-[#8dbbcc] rounded p-2;
 }

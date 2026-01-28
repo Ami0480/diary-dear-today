@@ -7,6 +7,7 @@ export default function EditCard({
   setEditDiary,
   updateEdit,
   cancelEdit,
+  deleteDiary,
 }) {
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
@@ -29,6 +30,11 @@ export default function EditCard({
           </button>
           <button type="button" onClick={cancelEdit}>
             Cancel
+          </button>
+        </div>
+        <div className="flex justify-center">
+          <button type="button" className="delete-button" onClick={deleteDiary}>
+            Delete
           </button>
         </div>
       </div>

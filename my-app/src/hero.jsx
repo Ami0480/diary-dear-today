@@ -76,6 +76,17 @@ export default function () {
     setIsEditing(false);
   };
 
+  const deleteDiary = async () => {
+    const { error } = await supabase.from("diaries").delete().eq("id", editId);
+
+    if (error) {
+      console.error("Error deleting", error);
+    } else {
+      fetchDiaries();
+      setIsEditing(false);
+    }
+  };
+
   const handleSignout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -153,6 +164,7 @@ export default function () {
               setEditDiary={setEditDiary}
               updateEdit={updateEdit}
               cancelEdit={cancelEdit}
+              deleteDiary={deleteDiary}
             />
           )}
         </div>
