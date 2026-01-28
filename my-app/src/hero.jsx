@@ -32,9 +32,13 @@ export default function () {
   const addDiary = async () => {
     if (!title || !diary) return;
 
-    const { data, error } = await supabase
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { error } = await supabase
       .from("diaries")
-      .insert([{ title, diary }])
+      .insert([{ title, diary, email: user.email }])
       .select();
 
     if (error) {
