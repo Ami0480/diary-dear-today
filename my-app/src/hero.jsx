@@ -72,11 +72,28 @@ export default function () {
     setIsEditing(false);
   };
 
+  const handleSignout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   return (
     <div className="mx-40">
-      <h1 className="font-serif text-5xl tracking-wide my-10 text-[#4a6378] flex justify-center">
-        Dear Today
-      </h1>
+      <div className="flex justify-center">
+        <h1 className="font-serif text-5xl tracking-wide my-10 text-[#4a6378] flex justify-center">
+          Dear Today
+        </h1>
+        <button
+          type="button"
+          className="mt-10 mb-12 absolute right-10 top=0"
+          onClick={handleSignout}
+        >
+          Sign out
+        </button>
+      </div>
+
       <div className="flex gap-16">
         <div className="my-10 flex flex-col gap-3 w-[40%]">
           <div className="flex flex-col gap-3">

@@ -8,20 +8,23 @@ export default function Auth() {
   const [error, setError] = useState("");
 
   const handleSignIn = async () => {
-    const { error } = await supabase.auth.signInWithPasssword({
+    console.log("Trying to sign in with:", email);
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+    console.log("Sign in result:", data, error);
 
     if (error) {
       setError(error.message);
     } else {
       setError("Check your mail for confirmation link!");
+      console.log("Sign up response:", data);
     }
   };
 
   const handleSignUp = async () => {
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
   };
 
   return (
@@ -50,7 +53,9 @@ export default function Auth() {
           className="auth"
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="button">{isSignUp ? "Sign up" : "Sign in"}</button>
+        <button type="button" onClick={isSignUp ? handleSignUp : handleSignIn}>
+          {isSignUp ? "Sign up" : "Sign in"}
+        </button>
         <h4 className="flex flex-col items-center my-10">
           {isSignUp ? "Already have an account" : "Don't have an account"}
           <button
