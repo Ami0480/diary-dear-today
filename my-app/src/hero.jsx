@@ -44,13 +44,15 @@ export default function () {
     if (error) {
       console.error("Error saving", error);
     } else {
-      setDiaries([...diaries, { title, diary }]);
+      fetchDiaries();
       setTitle("");
       setDiary("");
     }
   };
 
   const handleEdit = (d) => {
+    console.log("Diary object:", d);
+    console.log("Diary ID:", d.id);
     setEditId(d.id);
     setEditTitle(d.title);
     setEditDiary(d.diary);
@@ -102,7 +104,7 @@ export default function () {
         </h1>
         <button
           type="button"
-          className="mt-10 mb-12 absolute right-10 top=0"
+          className="sign-out mt-10 mb-12 absolute right-10 top-0"
           onClick={handleSignout}
         >
           Sign out
@@ -143,9 +145,9 @@ export default function () {
         </div>
 
         <div className="w-[60%]">
-          {diaries.map((d, index) => (
+          {diaries.map((d) => (
             <div
-              key={index}
+              key={d.id}
               className="display-diaries border flex flex-col my-10 gap-3"
             >
               <h2 className="font-serif text-3xl">{d.title}</h2>

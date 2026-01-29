@@ -26,6 +26,9 @@ button {
 .switch-button {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
+.sign-out {
+  @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
+}
 
 .delete-button {
   @apply bg-red-300;

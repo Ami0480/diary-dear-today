@@ -23,7 +23,11 @@ function App() {
   }, []);
 
   if (loading) {
-    return <div className="text-[#8dbbcc] text-xl">Loading...</div>;
+    return (
+      <div className="text-[#8dbbcc] text-xl m-20 absolute left-0">
+        Loading...
+      </div>
+    );
   }
 
   return session ? <Hero /> : <Auth />;
