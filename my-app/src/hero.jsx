@@ -12,8 +12,27 @@ export default function () {
   const [editTitle, setEditTitle] = useState("");
   const [editDiary, setEditDiary] = useState("");
 
+  const [diaryImage, setDiaryImage] = useState(null);
+
   useEffect(() => {
     fetchDiaries();
+  }, []);
+
+  useEffect(() => {
+    const channel = supabase.channel("diaries-channel");
+    channel
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "diaries" },
+        (payload) => {
+          setDiaries((prev) => [...prev, payload.new]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchDiaries = async () => {
@@ -29,6 +48,24 @@ export default function () {
     }
   };
 
+  const uploadImage = async (file) => {
+    const filePath = `${file.name}-${Date.now()}`;
+
+    const { error } = await supabase.storage
+      .from("diaries-images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Error uploading image", error.message);
+      return null;
+    }
+
+    const { data } = await supabase.storage
+      .from("diaries-images")
+      .getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
   const addDiary = async () => {
     if (!title || !diary) return;
 
@@ -36,9 +73,14 @@ export default function () {
       data: { user },
     } = await supabase.auth.getUser();
 
+    let imageUrl = null;
+    if (diaryImage) {
+      imageUrl = await uploadImage(diaryImage);
+    }
+
     const { error } = await supabase
       .from("diaries")
-      .insert([{ title, diary, email: user.email }])
+      .insert([{ title, diary, email: user.email, image_url: imageUrl }])
       .select();
 
     if (error) {
@@ -96,6 +138,12 @@ export default function () {
     }
   };
 
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setDiaryImage(e.target.files[0]);
+    }
+  };
+
   return (
     <div className="mx-40">
       <div className="flex justify-center">
@@ -127,6 +175,19 @@ export default function () {
               className="h-96"
               onChange={(e) => setDiary(e.target.value)}
             />
+
+            <div className="flex gap-2">
+              <label className="underline text-[#8dbbcc]">
+                Choose file
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </label>
+              <span>{diaryImage ? diaryImage.name : "No file chosen"}</span>
+            </div>
           </div>
           <div className="flex gap-2">
             <button type="button" onClick={addDiary}>
@@ -145,18 +206,36 @@ export default function () {
         </div>
 
         <div className="w-[60%]">
-          {diaries.map((d) => (
-            <div
-              key={d.id}
-              className="display-diaries border flex flex-col my-10 gap-3"
-            >
-              <h2 className="font-serif text-3xl">{d.title}</h2>
-              <p className="font-sans whitespace-pre-wrap">{d.diary}</p>
-              <button type="button" onClick={() => handleEdit(d)}>
-                Edit
-              </button>
-            </div>
-          ))}
+          {diaries.map((d) => {
+            console.log("image_url:", d.image_url);
+            return (
+              <div
+                key={d.id}
+                className="display-diaries border flex flex-col my-10 gap-3 overflow-hidden"
+              >
+                <div className="flex justify-between">
+                  <div className="flex-1 min-w-0">
+                    <h2 className="font-serif text-3xl">{d.title}</h2>
+                    <p className="font-sans whitespace-pre-wrap break-word">
+                      {d.diary}
+                    </p>
+                  </div>
+                  <div>
+                    {d.image_url && (
+                      <img
+                        src={d.image_url}
+                        style={{ height: 140 }}
+                        className="rounded"
+                      />
+                    )}
+                  </div>
+                </div>
+                <button type="button" onClick={() => handleEdit(d)}>
+                  Edit
+                </button>
+              </div>
+            );
+          })}
 
           {isEditing && (
             <EditCard
