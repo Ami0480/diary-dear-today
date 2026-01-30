@@ -13,6 +13,8 @@ export default function () {
   const [editDiary, setEditDiary] = useState("");
 
   const [diaryImage, setDiaryImage] = useState(null);
+  const [editImageUrl, setEditImageUrl] = useState(null);
+  const [newEditImage, setNewEditImage] = useState(null);
 
   useEffect(() => {
     fetchDiaries();
@@ -98,21 +100,29 @@ export default function () {
     setEditId(d.id);
     setEditTitle(d.title);
     setEditDiary(d.diary);
+    setEditImageUrl(d.image_url);
     setIsEditing(true);
   };
 
   const updateEdit = async () => {
     if (!editTitle || !editDiary) return;
 
+    let imageUrl = editImageUrl;
+
+    if (newEditImage) {
+      imageUrl = await uploadImage(newEditImage);
+    }
+
     const { error } = await supabase
       .from("diaries")
-      .update({ title: editTitle, diary: editDiary })
+      .update({ title: editTitle, diary: editDiary, image_url: imageUrl })
       .eq("id", editId);
     if (error) {
       console.error("Error updating", error);
     } else {
       fetchDiaries();
       setIsEditing(false);
+      setNewEditImage(null);
     }
   };
 
@@ -142,6 +152,11 @@ export default function () {
     if (e.target.files && e.target.files.length > 0) {
       setDiaryImage(e.target.files[0]);
     }
+  };
+
+  const deleteImage = () => {
+    setEditImageUrl(null);
+    setNewEditImage(null);
   };
 
   return (
@@ -243,6 +258,9 @@ export default function () {
               setEditTitle={setEditTitle}
               editDiary={editDiary}
               setEditDiary={setEditDiary}
+              editImageUrl={editImageUrl}
+              setNewEditImage={setNewEditImage}
+              deleteImage={deleteImage}
               updateEdit={updateEdit}
               cancelEdit={cancelEdit}
               deleteDiary={deleteDiary}
