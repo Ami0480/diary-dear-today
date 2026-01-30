@@ -8,6 +8,8 @@ export default function EditCard({
   editImageUrl,
   setNewEditImage,
   deleteImage,
+  editDiaryDate,
+  setEditDiaryDate,
   updateEdit,
   cancelEdit,
   deleteDiary,
@@ -24,6 +26,11 @@ export default function EditCard({
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
       <div className="edit-diaries border flex flex-col my-10 gap-3 bg-white">
+        <input
+          type="date"
+          value={editDiaryDate}
+          onChange={(e) => setEditDiaryDate(e.target.value)}
+        />
         <input
           type="text"
           value={editTitle}

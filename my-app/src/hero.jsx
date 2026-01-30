@@ -15,6 +15,7 @@ export default function () {
   const [editId, setEditId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDiary, setEditDiary] = useState("");
+  const [editDiaryDate, setEditDiaryDate] = useState(null);
 
   const [diaryImage, setDiaryImage] = useState(null);
   const [editImageUrl, setEditImageUrl] = useState(null);
@@ -115,6 +116,7 @@ export default function () {
     setEditTitle(d.title);
     setEditDiary(d.diary);
     setEditImageUrl(d.image_url);
+    setEditDiaryDate(d.diary_date || new Date().toISOString().split(`T`)[0]);
     setIsEditing(true);
   };
 
@@ -129,7 +131,12 @@ export default function () {
 
     const { error } = await supabase
       .from("diaries")
-      .update({ title: editTitle, diary: editDiary, image_url: imageUrl })
+      .update({
+        title: editTitle,
+        diary: editDiary,
+        image_url: imageUrl,
+        diary_date: editDiaryDate,
+      })
       .eq("id", editId);
     if (error) {
       console.error("Error updating", error);
@@ -284,6 +291,8 @@ export default function () {
               editImageUrl={editImageUrl}
               setNewEditImage={setNewEditImage}
               deleteImage={deleteImage}
+              editDiaryDate={editDiaryDate}
+              setEditDiaryDate={setEditDiaryDate}
               updateEdit={updateEdit}
               cancelEdit={cancelEdit}
               deleteDiary={deleteDiary}
