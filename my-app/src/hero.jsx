@@ -7,6 +7,10 @@ export default function () {
   const [diary, setDiary] = useState("");
   const [diaries, setDiaries] = useState([]);
 
+  const [diaryDate, setDiaryDate] = useState(
+    new Date().toISOString().split(`T`)[0]
+  );
+
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
@@ -82,7 +86,15 @@ export default function () {
 
     const { error } = await supabase
       .from("diaries")
-      .insert([{ title, diary, email: user.email, image_url: imageUrl }])
+      .insert([
+        {
+          title,
+          diary,
+          email: user.email,
+          image_url: imageUrl,
+          diary_date: diaryDate,
+        },
+      ])
       .select();
 
     if (error) {
@@ -91,6 +103,8 @@ export default function () {
       fetchDiaries();
       setTitle("");
       setDiary("");
+      setDiaryImage(null);
+      setDiaryDate(new Date().toISOString().split(`T`)[0]);
     }
   };
 
@@ -178,6 +192,11 @@ export default function () {
         <div className="my-10 flex flex-col gap-3 w-[40%]">
           <div className="flex flex-col gap-3">
             <input
+              type="date"
+              value={diaryDate}
+              onChange={(e) => setDiaryDate(e.target.value)}
+            />
+            <input
               type="text"
               placeholder="Title"
               value={title}
@@ -222,7 +241,6 @@ export default function () {
 
         <div className="w-[60%]">
           {diaries.map((d) => {
-            console.log("image_url:", d.image_url);
             return (
               <div
                 key={d.id}
@@ -230,6 +248,11 @@ export default function () {
               >
                 <div className="flex justify-between">
                   <div className="flex-1 min-w-0">
+                    <p>
+                      {d.diary_date
+                        ? new Date(d.diary_date).toLocaleDateString()
+                        : "No date"}
+                    </p>
                     <h2 className="font-serif text-3xl">{d.title}</h2>
                     <p className="font-sans whitespace-pre-wrap break-word">
                       {d.diary}
