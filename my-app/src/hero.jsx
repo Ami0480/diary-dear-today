@@ -254,7 +254,7 @@ export default function () {
             placeholder="Search diaries..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full"
+            className="w-full mt-10"
           />
 
           {diaries
@@ -273,7 +273,7 @@ export default function () {
               return (
                 <div
                   key={d.id}
-                  className="display-diaries border flex flex-col my-10 gap-3 overflow-hidden"
+                  className="display-diaries border flex flex-col my-3 gap-3 overflow-hidden"
                 >
                   <div className="flex justify-between">
                     <div className="flex-1 min-w-0">
