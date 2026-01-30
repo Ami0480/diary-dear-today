@@ -21,6 +21,8 @@ export default function () {
   const [editImageUrl, setEditImageUrl] = useState(null);
   const [newEditImage, setNewEditImage] = useState(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     fetchDiaries();
   }, []);
@@ -247,40 +249,60 @@ export default function () {
         </div>
 
         <div className="w-[60%]">
-          {diaries.map((d) => {
-            return (
-              <div
-                key={d.id}
-                className="display-diaries border flex flex-col my-10 gap-3 overflow-hidden"
-              >
-                <div className="flex justify-between">
-                  <div className="flex-1 min-w-0">
-                    <p>
-                      {d.diary_date
-                        ? new Date(d.diary_date).toLocaleDateString()
-                        : "No date"}
-                    </p>
-                    <h2 className="font-serif text-3xl">{d.title}</h2>
-                    <p className="font-sans whitespace-pre-wrap break-word">
-                      {d.diary}
-                    </p>
+          <input
+            type="text"
+            placeholder="Search diaries..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full"
+          />
+
+          {diaries
+            .filter((d) => {
+              if (!searchTerm) return true;
+
+              const search = searchTerm.toLowerCase();
+              return (
+                d.title?.toLowerCase().includes(search) ||
+                d.diary?.toLowerCase().includes(search) ||
+                d.diary_date?.includes(searchTerm)
+              );
+            })
+
+            .map((d) => {
+              return (
+                <div
+                  key={d.id}
+                  className="display-diaries border flex flex-col my-10 gap-3 overflow-hidden"
+                >
+                  <div className="flex justify-between">
+                    <div className="flex-1 min-w-0">
+                      <p>
+                        {d.diary_date
+                          ? new Date(d.diary_date).toLocaleDateString()
+                          : "No date"}
+                      </p>
+                      <h2 className="font-serif text-3xl">{d.title}</h2>
+                      <p className="font-sans whitespace-pre-wrap break-word">
+                        {d.diary}
+                      </p>
+                    </div>
+                    <div>
+                      {d.image_url && (
+                        <img
+                          src={d.image_url}
+                          style={{ height: 140 }}
+                          className="rounded"
+                        />
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    {d.image_url && (
-                      <img
-                        src={d.image_url}
-                        style={{ height: 140 }}
-                        className="rounded"
-                      />
-                    )}
-                  </div>
+                  <button type="button" onClick={() => handleEdit(d)}>
+                    Edit
+                  </button>
                 </div>
-                <button type="button" onClick={() => handleEdit(d)}>
-                  Edit
-                </button>
-              </div>
-            );
-          })}
+              );
+            })}
 
           {isEditing && (
             <EditCard
