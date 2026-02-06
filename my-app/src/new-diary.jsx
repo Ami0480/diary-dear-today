@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "./supabase-client";
 
-export default function NewDiary() {
+export default function NewDiary({ onClose }) {
   const [diaries, setDiaries] = useState([]);
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
@@ -45,6 +45,7 @@ export default function NewDiary() {
       setDiary("");
       setDiaryImage(null);
       setDiaryDate(new Date().toISOString().split(`T`)[0]);
+      onClose?.();
     }
   };
 
@@ -103,7 +104,7 @@ export default function NewDiary() {
           type="text"
           placeholder="Write your diary"
           value={diary}
-          className="h-96"
+          className="h-52 amd:h-96"
           onChange={(e) => setDiary(e.target.value)}
         />
 
@@ -129,6 +130,7 @@ export default function NewDiary() {
           onClick={() => {
             setTitle("");
             setDiary("");
+            onClose?.();
           }}
         >
           Cancel

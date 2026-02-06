@@ -10,6 +10,7 @@ export default function () {
   const [editTitle, setEditTitle] = useState("");
   const [editDiary, setEditDiary] = useState("");
   const [editDiaryDate, setEditDiaryDate] = useState(null);
+  const [showNewDiary, setShowNewDiary] = useState(false);
 
   const [newEditImage, setNewEditImage] = useState(null);
   const [editImageUrl, setEditImageUrl] = useState(null);
@@ -140,29 +141,48 @@ export default function () {
   };
 
   return (
-    <div className="mx-40">
-      <div className="flex items-center">
-        <div className="w-[40%]"></div>
-        <div className="w-[60%] flex justify-between items-center">
-          <h1 className="font-serif text-5xl tracking-wide my-20 text-[#4a6378] flex justify-center">
-            Dear Today
-          </h1>
-          <button
-            type="button"
-            className="sign-out mt-5 text-xl"
-            onClick={handleSignout}
-          >
-            Sign out
-          </button>
+    <div className="m-10 md:mx-40">
+      <div className="flex justify-end md:items-center">
+        <div className="hidden md:block md:w-[40%]"></div>
+        <div className="flex flex-col items-end md:w-[60%] md:flex-row md:justify-between">
+          <h1 className="md:flex md:justify-center">Dear Today</h1>
+          <div className="flex mb-5">
+            <button
+              type="button"
+              onClick={() => setShowNewDiary(true)}
+              className="new-button md:hidden"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              className="sign-out md:mt-5 text-xl"
+              onClick={handleSignout}
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="flex gap-10 items-start">
-        <div className="w-[40%]">
+      <div className="md:flex gap-10 items-start">
+        <div className="hidden md:block md:w-[40%]">
           <NewDiary />
         </div>
 
-        <div className="w-[60%]">
+        {showNewDiary && (
+          <div className="fixed inset-0 z-50 md:hidden">
+            <div
+              className="absolute inset-0 bg-black/60"
+              onClick={() => setShowNewDiary(false)}
+            />
+            <div className="relative z-10 bg-white m-2 rounded p-5 overflow-y-auto md:hidden md:w-[40%]">
+              <NewDiary onClose={() => setShowNewDiary(false)} />
+            </div>
+          </div>
+        )}
+
+        <div className="w-full md:w-[60%]">
           <input
             type="text"
             placeholder="Search diaries..."
@@ -189,24 +209,22 @@ export default function () {
                   key={d.id}
                   className="display-diaries border flex flex-col my-3 gap-3 overflow-hidden"
                 >
-                  <div className="flex justify-between">
-                    <div className="flex-1 min-w-0">
+                  <div className="md:flex justify-between">
+                    <div className="md:flex-1 min-w-0">
                       <p>
                         {d.diary_date
                           ? new Date(d.diary_date).toLocaleDateString()
                           : "No date"}
                       </p>
-                      <h2 className="font-serif text-3xl">{d.title}</h2>
-                      <p className="font-sans whitespace-pre-wrap break-word">
-                        {d.diary}
-                      </p>
+                      <h2>{d.title}</h2>
+                      <p className="display-diary break-word">{d.diary}</p>
                     </div>
                     <div>
                       {d.image_url && (
                         <img
                           src={d.image_url}
                           style={{ height: 140 }}
-                          className="rounded"
+                          className="my-3 rounded"
                         />
                       )}
                     </div>

@@ -16,8 +16,16 @@ textarea {
   @apply text-xl w-full;
 }
 
+h1 {
+  @apply text-4xl font-serif my-5 md:font-serif md:text-5xl tracking-wide md:my-20 text-[#4a6378];
+}
+
 h2 {
-  @apply font-serif text-3xl;
+  @apply font-serif my-3 text-xl md:text-3xl;
+}
+
+.display-diary {
+  @apply text-xl font-sans whitespace-pre-wrap md:text-2xl;
 }
 
 button {
@@ -25,6 +33,9 @@ button {
 }
 .switch-button {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
+}
+.new-button {
+  @apply text-3xl font-sans w-10 rounded-full bg-[#8dbbcc] text-white md:rounded;
 }
 
 .update-password {
