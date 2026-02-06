@@ -26,7 +26,15 @@ button {
 .switch-button {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
-.sign-out {
+
+.update-password {
+  @apply w-60 text-xl text-white;
+}
+.forgot-password-button {
+  @apply w-60 text-[#8dbbcc] text-sm bg-white underline;
+}
+.sign-out,
+.go-to-signin {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
 

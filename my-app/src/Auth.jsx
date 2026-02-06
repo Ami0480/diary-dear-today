@@ -27,6 +27,23 @@ export default function Auth() {
     const { data, error } = await supabase.auth.signUp({ email, password });
   };
 
+  const handleResetPassword = async () => {
+    if (!email) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/reset-password",
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setError("Check your email for password reset link");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center mx-40">
       <div className="flex flex-col items-center justify-center gap-5 w-1/2">
@@ -53,6 +70,17 @@ export default function Auth() {
           className="auth"
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {!isSignUp && (
+          <button
+            type="button"
+            className="forgot-password-button"
+            onClick={handleResetPassword}
+          >
+            Forgot password?
+          </button>
+        )}
+
         <button type="button" onClick={isSignUp ? handleSignUp : handleSignIn}>
           {isSignUp ? "Sign up" : "Sign in"}
         </button>
