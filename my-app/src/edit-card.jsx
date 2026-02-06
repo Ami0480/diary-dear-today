@@ -15,6 +15,7 @@ export default function EditCard({
   deleteDiary,
 }) {
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -85,10 +86,38 @@ export default function EditCard({
             Cancel
           </button>
         </div>
-        <div className="flex justify-center">
-          <button type="button" className="delete-button" onClick={deleteDiary}>
-            Delete
-          </button>
+
+        <div>
+          {!showDeleteConfirm ? (
+            <button
+              type="button"
+              onClick={() => setShowDeleteConfirm(true)}
+              className="delete-button"
+            >
+              Delete
+            </button>
+          ) : (
+            <div>
+              <p className="my-2 text-sm">
+                Are you sure you want to delete this diary?
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={deleteDiary}
+                  className="delete-button"
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

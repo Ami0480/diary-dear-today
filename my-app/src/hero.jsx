@@ -50,6 +50,30 @@ export default function () {
     }
   };
 
+  const uploadImage = async (file) => {
+    const filePath = `${file.name}-${Date.now()}`;
+
+    const { error } = await supabase.storage
+      .from("diaries-images")
+      .upload(filePath, file);
+
+    if (error) {
+      console.error("Error uploading image", error.message);
+      return null;
+    }
+
+    const { data } = await supabase.storage
+      .from("diaries-images")
+      .getPublicUrl(filePath);
+    return data.publicUrl;
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setDiaryImage(e.target.files[0]);
+    }
+  };
+
   const handleEdit = (d) => {
     console.log("Diary object:", d);
     console.log("Diary ID:", d.id);
