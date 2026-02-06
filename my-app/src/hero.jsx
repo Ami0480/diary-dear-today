@@ -190,7 +190,7 @@ export default function () {
         </h1>
         <button
           type="button"
-          className="sign-out mt-10 mb-12 absolute right-10 top-0 text-xl"
+          className="sign-out mt-10 mb-12 absolute right-20 top-0 text-xl"
           onClick={handleSignout}
         >
           Sign out
