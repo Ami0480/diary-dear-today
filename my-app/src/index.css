@@ -33,7 +33,11 @@ button {
 .forgot-password-button {
   @apply w-60 text-[#8dbbcc] text-sm bg-white underline;
 }
-.sign-out,
+
+.sign-out {
+  @apply w-60 text-[#8dbbcc] text-xl bg-white underline text-end;
+}
+
 .go-to-signin {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }

@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import EditCard from "./edit-card";
+import NewDiary from "./new-diary";
 import { supabase } from "./supabase-client";
 
 export default function () {
-  const [title, setTitle] = useState("");
-  const [diary, setDiary] = useState("");
   const [diaries, setDiaries] = useState([]);
-
-  const [diaryDate, setDiaryDate] = useState(
-    new Date().toISOString().split(`T`)[0]
-  );
-
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDiary, setEditDiary] = useState("");
   const [editDiaryDate, setEditDiaryDate] = useState(null);
 
-  const [diaryImage, setDiaryImage] = useState(null);
-  const [editImageUrl, setEditImageUrl] = useState(null);
   const [newEditImage, setNewEditImage] = useState(null);
+  const [editImageUrl, setEditImageUrl] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -54,60 +47,6 @@ export default function () {
       console.error("Error fetching", error);
     } else {
       setDiaries(data);
-    }
-  };
-
-  const uploadImage = async (file) => {
-    const filePath = `${file.name}-${Date.now()}`;
-
-    const { error } = await supabase.storage
-      .from("diaries-images")
-      .upload(filePath, file);
-
-    if (error) {
-      console.error("Error uploading image", error.message);
-      return null;
-    }
-
-    const { data } = await supabase.storage
-      .from("diaries-images")
-      .getPublicUrl(filePath);
-    return data.publicUrl;
-  };
-
-  const addDiary = async () => {
-    if (!title || !diary) return;
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    let imageUrl = null;
-    if (diaryImage) {
-      imageUrl = await uploadImage(diaryImage);
-    }
-
-    const { error } = await supabase
-      .from("diaries")
-      .insert([
-        {
-          title,
-          diary,
-          email: user.email,
-          image_url: imageUrl,
-          diary_date: diaryDate,
-        },
-      ])
-      .select();
-
-    if (error) {
-      console.error("Error saving", error);
-    } else {
-      fetchDiaries();
-      setTitle("");
-      setDiary("");
-      setDiaryImage(null);
-      setDiaryDate(new Date().toISOString().split(`T`)[0]);
     }
   };
 
@@ -171,12 +110,6 @@ export default function () {
     }
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setDiaryImage(e.target.files[0]);
-    }
-  };
-
   const deleteImage = () => {
     setEditImageUrl(null);
     setNewEditImage(null);
@@ -184,68 +117,25 @@ export default function () {
 
   return (
     <div className="mx-40">
-      <div className="flex justify-center">
-        <h1 className="font-serif text-5xl tracking-wide my-10 text-[#4a6378] flex justify-center">
-          Dear Today
-        </h1>
-        <button
-          type="button"
-          className="sign-out mt-10 mb-12 absolute right-20 top-0 text-xl"
-          onClick={handleSignout}
-        >
-          Sign out
-        </button>
+      <div className="flex items-center">
+        <div className="w-[40%]"></div>
+        <div className="w-[60%] flex justify-between items-center">
+          <h1 className="font-serif text-5xl tracking-wide my-20 text-[#4a6378] flex justify-center">
+            Dear Today
+          </h1>
+          <button
+            type="button"
+            className="sign-out mt-5 text-xl"
+            onClick={handleSignout}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
 
-      <div className="flex gap-16">
-        <div className="my-10 flex flex-col gap-3 w-[40%]">
-          <div className="flex flex-col gap-3">
-            <input
-              type="date"
-              value={diaryDate}
-              onChange={(e) => setDiaryDate(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <textarea
-              type="text"
-              placeholder="Write your diary"
-              value={diary}
-              className="h-96"
-              onChange={(e) => setDiary(e.target.value)}
-            />
-
-            <div className="flex gap-2">
-              <label className="underline text-[#8dbbcc]">
-                Choose file
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </label>
-              <span>{diaryImage ? diaryImage.name : "No file chosen"}</span>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <button type="button" onClick={addDiary}>
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setTitle("");
-                setDiary("");
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+      <div className="flex gap-10 items-start">
+        <div className="w-[40%]">
+          <NewDiary />
         </div>
 
         <div className="w-[60%]">
@@ -254,7 +144,7 @@ export default function () {
             placeholder="Search diaries..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full mt-10"
+            className="w-full"
           />
 
           {diaries
