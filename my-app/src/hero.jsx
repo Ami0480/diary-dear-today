@@ -145,6 +145,13 @@ export default function () {
       <div className="flex justify-end md:items-center">
         <div className="hidden md:block md:w-[40%]"></div>
         <div className="flex flex-col items-end md:w-[60%] md:flex-row md:justify-between">
+          <button
+            type="button"
+            className="sign-out md:mt-5 text-xl"
+            onClick={handleSignout}
+          >
+            Sign out
+          </button>
           <h1 className="md:flex md:justify-center">Dear Today</h1>
           <div className="flex mb-5">
             <button
@@ -153,13 +160,6 @@ export default function () {
               className="new-button md:hidden"
             >
               +
-            </button>
-            <button
-              type="button"
-              className="sign-out md:mt-5 text-xl"
-              onClick={handleSignout}
-            >
-              Sign out
             </button>
           </div>
         </div>
