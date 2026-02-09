@@ -17,7 +17,7 @@ textarea {
 }
 
 h1 {
-  @apply text-4xl font-serif mb-5 mt-2 md:font-serif md:text-5xl tracking-wide md:my-20 text-[#4a6378];
+  @apply text-4xl font-serif md:font-serif md:text-5xl tracking-wide text-[#4a6378];
 }
 
 h2 {
@@ -35,7 +35,7 @@ button {
   @apply w-60 text-[#8dbbcc] text-xl bg-white underline;
 }
 .new-button {
-  @apply text-3xl font-sans w-9 rounded-full bg-[#8dbbcc] text-white flex items-center justify-center md:rounded;
+  @apply text-3xl font-sans w-9 rounded-full bg-[#8dbbcc] text-white md:rounded;
 }
 
 .update-password {

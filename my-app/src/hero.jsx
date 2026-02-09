@@ -142,28 +142,24 @@ export default function () {
 
   return (
     <div className="m-10 md:mx-40">
-      <div className="flex justify-end md:items-center">
-        <div className="hidden md:block md:w-[40%]"></div>
-        <div className="flex flex-col items-end md:w-[60%] md:flex-row md:justify-between">
-          <button
-            type="button"
-            className="sign-out md:mt-5 text-xl"
-            onClick={handleSignout}
-          >
-            Sign out
-          </button>
-          <h1 className="md:flex md:justify-center">Dear Today</h1>
-          <div className="flex mb-5">
-            <button
-              type="button"
-              onClick={() => setShowNewDiary(true)}
-              className="new-button md:hidden"
-            >
-              +
-            </button>
-          </div>
-        </div>
+      <div className="relative flex flex-col items-end mb-3 pt-10 md:items-center  md:mb-5">
+        <button
+          type="button"
+          className="sign-out text-xl absolute right-0 top-0"
+          onClick={handleSignout}
+        >
+          Sign out
+        </button>
+        <h1>Dear Today</h1>
       </div>
+
+      <button
+        type="button"
+        onClick={() => setShowNewDiary(true)}
+        className="new-button mb-3 md:hidden"
+      >
+        +
+      </button>
 
       <div className="md:flex gap-10 items-start">
         <div className="hidden md:block md:w-[40%]">
@@ -224,7 +220,7 @@ export default function () {
                         <img
                           src={d.image_url}
                           style={{ height: 140 }}
-                          className="my-3 rounded"
+                          className="rounded"
                         />
                       )}
                     </div>

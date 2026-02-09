@@ -48,7 +48,7 @@ export default function Auth() {
     <div className="my-10 flex items-center justify-center mx-4 md:mx-40">
       <div className="w-full flex flex-col items-center justify-center gap-5 md:w-1/2">
         <h1 className="flex justify-center">Dear Today</h1>
-        <h3 className="font-serif text-3xl tracking-wide  text-[#4a6378]">
+        <h3 className="font-serif text-2xl md:text-3xl tracking-wide  text-[#4a6378]">
           {isSignUp ? "Create account" : "Sign in"}
         </h3>
 
