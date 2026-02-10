@@ -167,12 +167,12 @@ export default function () {
         </div>
 
         {showNewDiary && (
-          <div className="fixed inset-0 z-50 md:hidden">
+          <div className="fixed inset-0 z-50 md:hidden p-4 pt-10">
             <div
               className="absolute inset-0 bg-black/60"
               onClick={() => setShowNewDiary(false)}
             />
-            <div className="relative z-10 bg-white m-2 rounded p-5 overflow-y-auto md:hidden md:w-[40%]">
+            <div className="relative z-10 bg-white rounded p-5 overflow-y-auto max-h-[85vh] w-full">
               <NewDiary onClose={() => setShowNewDiary(false)} />
             </div>
           </div>

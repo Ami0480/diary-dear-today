@@ -25,8 +25,8 @@ export default function EditCard({
     }
   };
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-      <div className="edit-diaries border flex flex-col my-10 gap-3 bg-white">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4">
+      <div className="edit-diaries border flex flex-col gap-3 bg-white w-full max-w-md">
         <input
           type="date"
           value={editDiaryDate}

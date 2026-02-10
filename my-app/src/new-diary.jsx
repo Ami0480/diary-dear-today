@@ -104,7 +104,7 @@ export default function NewDiary({ onClose }) {
           type="text"
           placeholder="Write your diary"
           value={diary}
-          className="h-52 amd:h-96"
+          className="h-52 md:h-96"
           onChange={(e) => setDiary(e.target.value)}
         />
 
