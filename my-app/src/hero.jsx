@@ -28,7 +28,9 @@ export default function () {
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "diaries" },
         (payload) => {
-          setDiaries((prev) => [...prev, payload.new]);
+          if (payload.new.email === user.email) {
+            setDiaries((prev) => [...prev, payload.new]);
+          }
         }
       )
       .subscribe();
@@ -39,9 +41,14 @@ export default function () {
   }, []);
 
   const fetchDiaries = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     const { data, error } = await supabase
       .from("diaries")
       .select("*")
+      .eq("email", user.email)
       .order("created_at", { ascending: false });
 
     if (error) {

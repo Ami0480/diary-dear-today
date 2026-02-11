@@ -8,12 +8,10 @@ export default function Auth() {
   const [error, setError] = useState("");
 
   const handleSignIn = async () => {
-    console.log("Trying to sign in with:", email);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    console.log("Sign in result:", data, error);
 
     if (error) {
       setError(error.message);
@@ -24,7 +22,18 @@ export default function Auth() {
   };
 
   const handleSignUp = async () => {
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({ email, password });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      setError("Check your mail for confirmation link!");
+    }
   };
 
   const handleResetPassword = async () => {
