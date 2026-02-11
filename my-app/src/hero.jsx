@@ -163,7 +163,7 @@ export default function () {
       <button
         type="button"
         onClick={() => setShowNewDiary(true)}
-        className="new-button mb-3 md:hidden"
+        className="new-button mb-3 flex md:hidden"
       >
         +
       </button>
