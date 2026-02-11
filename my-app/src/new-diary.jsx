@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "./supabase-client";
 
-export default function NewDiary({ onClose }) {
+export default function NewDiary({ onClose, fetchDiaries }) {
   const [diaries, setDiaries] = useState([]);
   const [title, setTitle] = useState("");
   const [diary, setDiary] = useState("");
@@ -46,19 +46,6 @@ export default function NewDiary({ onClose }) {
       setDiaryImage(null);
       setDiaryDate(new Date().toISOString().split(`T`)[0]);
       onClose?.();
-    }
-  };
-
-  const fetchDiaries = async () => {
-    const { data, error } = await supabase
-      .from("diaries")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Error fetching", error);
-    } else {
-      setDiaries(data);
     }
   };
 

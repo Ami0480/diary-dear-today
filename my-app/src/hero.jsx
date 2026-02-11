@@ -76,12 +76,6 @@ export default function () {
     return data.publicUrl;
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setDiaryImage(e.target.files[0]);
-    }
-  };
-
   const handleEdit = (d) => {
     console.log("Diary object:", d);
     console.log("Diary ID:", d.id);
@@ -170,7 +164,7 @@ export default function () {
 
       <div className="md:flex gap-10 items-start">
         <div className="hidden md:block md:w-[40%]">
-          <NewDiary />
+          <NewDiary fetchDiaries={fetchDiaries} />
         </div>
 
         {showNewDiary && (
@@ -180,7 +174,10 @@ export default function () {
               onClick={() => setShowNewDiary(false)}
             />
             <div className="relative z-10 bg-white rounded p-5 overflow-y-auto max-h-[85vh] w-full">
-              <NewDiary onClose={() => setShowNewDiary(false)} />
+              <NewDiary
+                onClose={() => setShowNewDiary(false)}
+                fetchDiaries={fetchDiaries}
+              />
             </div>
           </div>
         )}
